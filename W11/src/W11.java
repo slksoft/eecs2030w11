@@ -25,7 +25,7 @@ public class W11 extends JFrame implements ActionListener, KeyListener {
 	public static final int gameHeight = 701;
 	public static final int tick = 25;
 	public static final int ballSize = 10;
-	public static final int ballCount = 100;
+	public static final int ballCount = 200;
 	public static final double friction = 0.9;
 	
 	private double gForce = 0;
@@ -101,9 +101,14 @@ public class W11 extends JFrame implements ActionListener, KeyListener {
             	int xDiff = (int) ball1.x - (int) ball2.x;
             	int yDiff = (int) ball1.y - (int) ball2.y;
             	if (xDiff > -ballSize && xDiff < ballSize && yDiff > -ballSize && yDiff < ballSize) {
-					ball1.xSpeed = - ball1.xSpeed;
-					ball1.ySpeed = - ball1.ySpeed;
-            		
+                	if (ball1.xSpeed < 0 && ball2.xSpeed > 0 || ball1.xSpeed > 0 && ball2.xSpeed < 0) {
+                		ball1.xSpeed = - ball1.xSpeed;
+                		ball2.xSpeed = - ball2.xSpeed;
+                	}
+                	if (ball1.ySpeed < 0 && ball2.ySpeed > 0 || ball1.ySpeed > 0 && ball2.ySpeed < 0) {
+                		ball1.ySpeed = - ball1.ySpeed;
+                		ball2.ySpeed = - ball2.ySpeed;
+                	}
             	}
             }        	
         }	
@@ -175,23 +180,21 @@ public class W11 extends JFrame implements ActionListener, KeyListener {
 				ySpeed += gForce;
 				x += xSpeed;
 				if (x > gameWidth) {
-					xSpeed = - friction * xSpeed;
+					xSpeed = - xSpeed;
 					ySpeed = friction * ySpeed;
 					x = gameWidth - (x - gameWidth);
 				}
 				if (x < 0) {
-					xSpeed = -friction * xSpeed;
+					xSpeed = -xSpeed;
 					ySpeed = friction * ySpeed;
 					x = -x;
 				}
 				y += ySpeed;
 				if (y > gameHeight) {
-					xSpeed = friction * xSpeed;
 					ySpeed = -friction * ySpeed;
 					y = gameHeight - (y - gameHeight);
 				}
 				if (y < 0) {
-					xSpeed = friction * xSpeed;
 					ySpeed = -friction * ySpeed;
 					y = -y;
 				}
